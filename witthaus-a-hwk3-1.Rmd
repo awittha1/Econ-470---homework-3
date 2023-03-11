@@ -1,0 +1,68 @@
+---
+title: 'Homework 2 - Research in Health Economics'
+author: "Alexia Witthaus Viñé"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: no
+    toc_depth: '2'
+  prettydoc::html_pretty:
+    df_print: kable
+    highlight: vignette
+    theme: lumen
+  html_document:
+    df_print: paged
+---
+```{r, echo = FALSE}
+load("image.Rdata")
+library(modelsummary)
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning = FALSE, fig.width = 16/2, fig.height = 9/2, tidy.opts=list(width.cutoff=60), tidy=TRUE)
+```
+
+
+# Question 1 
+
+```{r}
+graph_1
+```
+
+
+# Question 2 
+```{r}
+graph_2
+```
+
+# Question 3 
+
+```{r}
+graph3
+```
+
+```{r}
+graph4
+```
+
+
+# Question 5 
+
+Apart from North Carolina, the top 5 higheststates in tax increase seem to start higher, and have a steeper sloper. By 2019, it looks like the sales from the highest taxes are lower than the ones from the lowest taxes. 
+
+# Question 6 
+
+```{r}
+modelsummary(regq6)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
