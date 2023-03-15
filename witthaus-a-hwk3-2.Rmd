@@ -1,0 +1,130 @@
+---
+title: 'Homework 3 - Research in Health Economics'
+author: "Alexia Witthaus Viñé"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+```{r, echo = FALSE}
+load("image.Rdata")
+library(modelsummary)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning = FALSE, fig.width = 16/2, fig.height = 9/2, tidy.opts=list(width.cutoff=60), tidy=TRUE)
+```
+
+
+# Question 1 
+
+Figure \ref(fig:table)
+
+```{r table, fig.cap="Distribution of Hospital Charges"}
+graph_1
+```
+
+
+# Question 2 
+```{r}
+graph_2
+```
+
+# Question 3 
+
+```{r}
+graph3
+```
+
+```{r}
+graph4
+```
+
+
+# Question 5 
+
+Apart from North Carolina, the top 5 higheststates in tax increase seem to start higher, and have a steeper sloper. By 2019, it looks like the sales from the highest taxes are lower than the ones from the lowest taxes. 
+
+```{r}
+graph5
+```
+
+
+# Question 6 
+
+```{r}
+list("Elasticity with OLS" = regq6) %>%
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+
+# Question 7 
+
+```{r}
+
+list("Elasticity with IV" = ivq7) %>%
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+These estimates are different. It is likely that there are variables in our first regression, that are correlated with both, sales and price, thus biasing the results. Using an IV in the second model, we are reducing the variation in price to the variation caused by variation in taxation with time. This would produce an unbiased result of the ATE as long as the relevance and exclusion restriction assumptions are met. 
+
+
+# Question 8 
+
+```{r}
+list(
+  "First stage" = first_stage1) %>% 
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    stars = TRUE,
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+```{r}
+list(
+  "Reduced Form" = reduced_form1) %>% 
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    stars = TRUE,
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+# Question 9 
+
+```{r}
+list("Elasticity with OLS" = regq8) %>%
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+```{r}
+list("Elasticity with IV" = ivq8) %>%
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    stars = TRUE,
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+```{r}
+list(
+  "First stage" = first_stage2) %>% 
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    stars = TRUE,
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+```{r}
+list(
+  "Reduced Form" = reduced_form2) %>% 
+  modelsummary(
+    statistic = c("estimate", "std.error"),
+    stars = TRUE,
+    type = "html") %>% kable_styling(latex_options="hold_position")
+```
+
+
+
+
+
