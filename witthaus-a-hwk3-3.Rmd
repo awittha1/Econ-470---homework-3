@@ -1,0 +1,115 @@
+---
+title: 'Homework 3 - Research in Health Economics'
+author: "Alexia Witthaus Viñé"
+date: "`r Sys.Date()`"
+header-includes:
+  - \usepackage{booktabs}
+output: 
+  bookdown::pdf_document2:
+    fig_caption: yes
+    toc: false
+---
+```{r, echo = FALSE}
+load("image.Rdata")
+library(modelsummary)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning = FALSE, fig.width = 16/2, fig.height = 9/2, tidy.opts=list(width.cutoff=60), tidy=TRUE)
+```
+
+
+# Summary of the data 
+
+
+```{r table, fig.cap="Proportition of states with a cigarette tax change"}
+graph_1
+```
+
+```{r, fig.cap="Average Tax vs. Average Price of cigarettes"}
+graph_2
+```
+
+```{r, fig.cap = " Average sales per capita for the states with the highest tax changes"}
+graph3
+```
+
+```{r fig.cap = " Average sales per capita for the states with the lowest tax changes"}
+graph4
+```
+
+
+```{r, fig.cap = " Average sales per capita for the states with the highest tax changes"}
+graph5
+```
+
+\newpage
+
+# Esimates of the ATE 
+
+
+## Price elasticity of demand for cigarettes using OLS (1970 - 1990) 
+
+In table \@ref(tab:regtab), one can observe that using OLS, the elasticity of the demand for cigarettes in the years 1970-1990 is `r round(regq6$coefficients[2],2)`. This indicates that the demand is inelastic, which is what we would expect given that cigaretts are an addictive good. 
+
+## Price elasticity of demand for cigarettes using IV (1970 - 1990) 
+
+
+Similarly, using total taxes as an instrument, Table \@ref(tab:regtab) shows that the estimate of the elasticity of  demand for cigarettes is `r round(ivq7$coefficients[2],2)`. This result is similar, though not identical to the previous one. This coefficient still indicates that the good is inelastic, but now it's slightly more inelastic. 
+
+There are a variety of reasons why the estimates could be different. First of all, either OLS or IV may be biased. Omitted variables could bias OLS, and a violation of the exclusion restriction could bias the IV. Another possible reason is that the lack of variation in tax changes in this time shown in Figure \@ref(fig:table), could invalidate the instrumental variable. 
+
+
+## Show First stage and reduced form for instrumental variable
+
+
+Table \@ref(tab:ivtab), shows the First-stage and Reduced- Form from the Instrumental Variable, where the First-stage looks at the effect of taxes on the price and the Reduced-Form examines the relationship between taxes and sales. 
+ 
+## Price elasticity of demand for cigarettes (1991 - 2015) 
+
+Using OLS, the elasticity of demand for 1991-2015 is `r round(regq8$coefficients[2],2)`. This means that for these years, the demand for cigarettes is elastic. Similarly, using Tax as an Instrumental Variable the estimated elasticity becomes `r round(ivq8$coefficients[2],2)`.Again, both these estimates are similar, though not identical. The elasticity estimated by the Instrumental Variable is more elastic than the one estimated by OLS. 
+
+## Comparison between elasticities between 1970-1990 and 1991-2015
+
+From 1970 to 1990, the estimated elasticity was inelastic, while the estimated elasticity for 1991-2915 is elastic. The elasticity estimated with OLS is likely to be biased in both cases, as there are variables such as the political party of a state, that are correlated with sales and price of cigarettes. For the instrumental variable, as discussed in class, the estimate for 1991-2015, is likely to be more accurate and representative, since most of the variation in taxes occurred from 2000 to 2010, and we are estiamting a Local Average Treatment Effect, where most of the variation occured. 
+
+
+
+
+
+
+
+
+
+
+\newpage 
+```{r regtab, include=T, eval=T, echo=F}
+modelsummary(list("OLS" = regq6 , "IV" = ivq7, "OLS" =regq8, "IV" = ivq8),
+             title = "Estimates of the price elasticity of demand for cigarettes ",
+             include = c("nobs"),
+             coef_map = c("log_price" = "Log Price",
+                          "fit_log_price" = "Log Price"),
+             output = "kableExtra")%>% 
+            add_header_above(c(" " = 1, "1970 - 1990" = 2, "1991 - 2015" = 2))%>% 
+             kable_styling(latex_options="hold_position", full_width = TRUE)
+```
+
+\newpage
+
+```{r ivtab, include=T, eval=T, echo=F}
+models_list <- list("First Stage" = first_stage1,
+                    "Reduced Form" = reduced_form1, 
+                    "First Stage" = first_stage2, 
+                    "Reduced Form" = reduced_form2)
+
+table <- modelsummary(models_list, 
+                      title = "First stage and reduced Form of IV", 
+                      coef_map = c("total_tax_cpi" = "Tax"),
+                      output = "kableExtra", 
+                      stars = TRUE)
+table %>% add_header_above(c(" " = 1, "1970 - 1990" = 2, "1991 - 2015" = 2))%>% 
+                             kable_styling(latex_options = "hold_position", full_width = TRUE)
+```
+
+
+
+
+
